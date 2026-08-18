@@ -50,3 +50,13 @@ curl -X POST localhost:8000/orders -H "Content-Type: application/json" \
 
 - Kafka Connect REST: http://localhost:8083/connectors
 - Jaeger UI: http://localhost:16686
+
+## Tracing
+
+Each order is one trace in Jaeger — and it now spans the whole outbox → Debezium →
+Kafka path, not just a direct broker hop. A normal order runs straight through;
+a failed one visibly rolls back.
+
+![A successful order trace in Jaeger](docs/trace-success.png)
+
+*Happy path — reserve → charge → confirm.*
